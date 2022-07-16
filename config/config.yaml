@@ -1,3 +1,13 @@
-image_folder: "/media/hj/H_T5/STHEREO/sthereo_02_kaist_afternoon/image/stereo_thermal_14_left"
-pose_folder: "/media/hj/H_T5/STHEREO/sthereo_02_kaist_afternoon/pose"
-output_gt_path: "/home/hj/output.csv"
+image_folder: "/media/hj/seagate/datasets/STHEREO/sthereo_03_kaist_evening/image/stereo_thermal_14_left"
+pose_folder: "/media/hj/seagate/datasets/STHEREO/sthereo_03_kaist_evening/pose"
+output_local_gt_path: "/media/hj/seagate/datasets/sthereo_datasets/STHEREO/dataset_full/01/train_sets/local_pose.csv"
+output_global_gt_path: "/media/hj/seagate/datasets/sthereo_datasets/STHEREO/dataset_full/01/train_sets/global_pose.csv"
+
+# loop pairs
+interpolated_gt_path: "/media/hj/seagate/datasets/sthereo_datasets/STHEREO/dataset_full/01/train_sets/global_pose.csv"
+intraloop_save_path: "/media/hj/seagate/datasets/sthereo_datasets/STHEREO/dataset_full/01/train_sets/intraloop.csv"
+
+
+# image preprocessing
+raw_image_folder: "/media/hj/H_T5/STHEREO/sthereo_02_kaist_afternoon/image/stereo_thermal_14_left"
+preprocessed_image_folder: "/media/hj/seagate/datasets/sthereo_datasets/STHEREO/dataset_full/02/thermal_left"
