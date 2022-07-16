@@ -43,7 +43,7 @@ def find_nearest_leftmost(array,value):
         return len(array)
 
     idx = np.searchsorted(array, value, side="left")
-    print(idx)
+    # print(idx)
 
     if idx > 0 and value - float(array[idx]) <= 0:
         return idx-1
@@ -60,27 +60,44 @@ def construct_gt_pose_array(img_list, pose_table, output_path):
 
         for img in img_list:
             img_time = np.float64(img[:10] + '.' + img[10:-4])
-            print(img_time)
+            # print(img_time)
             idx = find_nearest_leftmost(pose_table[:,0], img_time)
 
             if idx == -1:
                 new_pose = pose_table[idx+1, 1:]
+                writer.writerow( np.concatenate( ([img_time], new_pose), axis=0))
+
 
             elif idx == pose_table.shape[0]:
                 new_pose = pose_table[idx-1, 1:]
+                writer.writerow( np.concatenate( ([img_time], new_pose), axis=0))
             
             else:
                 d1 = img_time - pose_table[idx,0]
                 d2 = pose_table[idx+1, 0] - img_time
                 assert (d1 >= 0 and d2 >= 0)
-                new_pose = pose_table[idx, 1:] * d2 / (d1+d2) + pose_table[idx+1, 1:] * d1 / (d1+d2)
+                
+                new_pose = pose_table[idx, 1:-1] * d2 / (d1+d2) + pose_table[idx+1, 1:-1] * d1 / (d1+d2)
 
+                if pose_table[idx, -1] < 0: 
+                    new_yaw_1 = pose_table[idx, -1] + np.float64(360.0)
+                else: 
+                    new_yaw_1 = pose_table[idx, -1]
+                if pose_table[idx+1, -1] < 0: 
+                    new_yaw_2 = pose_table[idx+1, -1] + np.float64(360.0)
+                else: 
+                    new_yaw_2 = pose_table[idx+1, -1]
+                interpolated_yaw = new_yaw_1  * d2 / (d1+d2) + new_yaw_2 * d1 / (d1+d2)
+                
+                if interpolated_yaw > np.float64(180.0):
+                    interpolated_yaw -= np.float64(360.0)
+
+                writer.writerow( np.concatenate( ([img_time], new_pose, [interpolated_yaw]), axis=0))
             # writer.writerow( np.concatenate( ([img[:-4]], new_pose), axis=0))
-            writer.writerow( np.concatenate( ([img_time], new_pose), axis=0))
 
-            # count += 1
-            # if count > 400:
-            #     break
+            count += 1
+            if count > 300:
+                break
 
 
 if __name__ == '__main__':
