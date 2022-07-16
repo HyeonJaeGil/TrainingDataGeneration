@@ -1,0 +1,3 @@
+image_folder: "/media/hj/H_T5/STHEREO/sthereo_02_kaist_afternoon/image/stereo_thermal_14_left"
+pose_folder: "/media/hj/H_T5/STHEREO/sthereo_02_kaist_afternoon/pose"
+output_gt_path: "/home/hj/output.csv"
