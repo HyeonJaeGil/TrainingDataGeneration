@@ -174,15 +174,26 @@ if __name__ == '__main__':
     
     config_filename = './config/config.yaml'
     config = yaml.safe_load(open(config_filename))
+    src_root_path = config["src_root_path"]
+    dst_root_path = config["dst_root_path"]
+    seq = config["seq"]
+    src_root_path = os.path.join(src_root_path, seq)
+    dst_root_path = os.path.join(dst_root_path, seq)
+
     image_folder = config["image_folder"]
     pose_folder = config["pose_folder"]
     output_local_gt_path = config["output_local_gt_path"]
     output_global_gt_path = config["output_global_gt_path"]
     
-    local_pose_table = read_pose(os.path.join(pose_folder, 'local_pose.csv'))
-    global_pose_table = read_pose(os.path.join(pose_folder, 'global_pose.csv'))
-    construct_gt_pose_array(image_folder, local_pose_table, output_local_gt_path)
-    construct_gt_pose_array(image_folder, global_pose_table, output_global_gt_path)
+    abs_image_folder = os.path.join(src_root_path, image_folder)
+    abs_pose_folder = os.path.join(src_root_path, pose_folder)    
+    abs_output_local_gt_path = os.path.join(dst_root_path, output_local_gt_path)
+    abs_output_global_gt_path = os.path.join(dst_root_path, output_global_gt_path)
+
+    local_pose_table = read_pose(os.path.join(abs_pose_folder, 'local_pose.csv'))
+    global_pose_table = read_pose(os.path.join(abs_pose_folder, 'global_pose.csv'))
+    construct_gt_pose_array(abs_image_folder, local_pose_table, abs_output_local_gt_path)
+    construct_gt_pose_array(abs_image_folder, global_pose_table, abs_output_global_gt_path)
 
     # query = np.float64([-1.4168655872345, -0.863484025001526, 0.398936808109283])
     # print(query)
