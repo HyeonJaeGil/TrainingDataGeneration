@@ -1,0 +1,5 @@
+
+data_root_folder: "/media/hj/seagate/datasets/sthereo_datasets/STHEREO/dataset_full"
+training_seqs: ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
+validation_seqs: []
+testing_seqs: []

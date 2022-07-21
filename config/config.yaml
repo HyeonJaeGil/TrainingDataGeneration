@@ -1,5 +1,5 @@
 # gt interpolation
-seq: "07"
+seq: "02"
 src_root_path:  "/media/hj/seagate/datasets/STHEREO"
 dst_root_path:  "/media/hj/seagate/datasets/sthereo_datasets/STHEREO/dataset_full"
 
@@ -12,8 +12,22 @@ output_global_gt_path: "train_sets/global_pose.csv"
 interpolated_gt_path: "train_sets/global_pose.csv"
 intraloop_save_path: "train_sets/intraloop.csv"
 interloop_save_path: "train_sets/interloop.csv"
+inter_softneg_save_path: "train_sets/softneg.csv"
+inter_hardneg_save_path: "train_sets/hardneg.csv"
+total_save_path: "train_sets/train_pairs.csv"
 
 
 # image preprocessing
-raw_image_folder: "/media/hj/H_T5/STHEREO/02/image/stereo_thermal_14_left"
-preprocessed_image_folder: "/media/hj/seagate/datasets/sthereo_datasets/STHEREO/dataset_full/02/thermal_left"
+raw_image_folder: "/media/hj/seagate/datasets/STHEREO"
+preprocessed_image_folder: "/media/hj/seagate/datasets/sthereo_datasets/STHEREO/dataset_full"
+camera_matrix: 
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 4.2943288714549999e+02, 0., 3.1111923634459998e+02, 0.,
+       4.2953142750190000e+02, 2.6612817575460002e+02, 0., 0., 1. ]
+distortion_coefficients: 
+   rows: 1
+   cols: 5
+   dt: d
+   data: [ -3.5808823350000002e-01, 9.9431845300000002e-02, 0., 0., 0. ]
