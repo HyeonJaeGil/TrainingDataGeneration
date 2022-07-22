@@ -409,7 +409,7 @@ def preprocess_and_save_valid_image(src_img_folder, dst_img_folder, gt_pose_path
         # break
 
         cv2.imshow(seq, out_img.astype('uint8')); cv2.waitKey(1)
-        cv2.imwrite((os.path.join(dst_img_folder,to6digit(idx)+'.png')), out_img)
+        # cv2.imwrite((os.path.join(dst_img_folder,to6digit(idx)+'.png')), out_img)
 
 
 if __name__ == '__main__':
@@ -426,10 +426,11 @@ if __name__ == '__main__':
     distort_coeffs = np.array(config["distortion_coefficients"]["data"], dtype=np.float64).reshape(1,5)
     seq = config["seq"]
 
-    for seq in ["01", "02", "03", "04", "05", "06", "07", "08", "09"]:
+    # for seq in ["01", "02", "03", "04", "05", "06", "07", "08", "09"]:
     # for seq in ["01", "02", "03"]:
     # for seq in ["04", "05", "06"]:
     # for seq in ["07", "08", "09"]:
+    for seq in ["10"]:
         src_img_folder = os.path.join(raw_image_folder, seq, "image/stereo_thermal_14_left")
         dst_img_folder = os.path.join(preprocessed_image_folder, seq, "thermal_left")
         img_list = sorted(os.listdir(src_img_folder), reverse=False)
