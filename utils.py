@@ -39,8 +39,19 @@ def read_csv(file_path):
         for row in csvreader:
             rows.append(row)
     
-    return np.asarray(rows)
+    return np.asarray(rows, dtype='str')
     # return np.asarray(rows, dtype='float64')
+
+
+def read_training_pairs(file_path):
+
+    with open(file_path, 'r') as file:
+        csvreader = csv.reader(file)
+        rows = []
+        for row in csvreader:
+            rows.append([to6digit(row[0]), to6digit(row[1]), to2digit(row[2]), to2digit(row[3]), row[4]])
+    
+    return np.asarray(rows, dtype='str')
 
 
 # read csv file that contains local (interpolated) pose
