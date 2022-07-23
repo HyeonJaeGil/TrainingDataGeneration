@@ -15,7 +15,9 @@ from matplotlib import pyplot as plt
 import csv
 import yaml
 import math
-from utils import read_csv, read_interpolated_pose
+from utils import to2digit, to6digit
+
+# from utils import read_csv, read_interpolated_pose
 np.set_printoptions(precision=9)
 
 
@@ -78,7 +80,7 @@ def get_valid_ids(gt_pose_path, min_interval=1):
         return np.array(valid_ids, dtype='int')
 
 
-def get_valid_image_dict(gt_pose_path, min_interval=0.1):
+def get_valid_image_dict(gt_pose_path, min_interval=1):
     
     with open(gt_pose_path, 'r') as file:
         csvreader = csv.reader(file)
@@ -308,14 +310,14 @@ def generate_total_pairs_kdtree(query_gt_path, search_gt_path, query_seq, search
                     # intra loop search
                     if query_seq == search_seq and check_true(p_dropout) and \
                     heading_diff < max_heading_diff**2 and id_diff > min_id_diff:
-                        writer.writerow([q_indexes[q_idx], s_indexes[idx], query_seq, search_seq, 1])
+                        writer.writerow([to6digit(q_indexes[q_idx]), to6digit(s_indexes[idx]), query_seq, search_seq, 1])
                         pos_samples += 1
                         count += 1
                         
                     # inter loop search    
                     if query_seq != search_seq and check_true(p_dropout) and \
                     heading_diff < max_heading_diff**2:
-                        writer.writerow([q_indexes[q_idx], s_indexes[idx], query_seq, search_seq, 1])
+                        writer.writerow([to6digit(q_indexes[q_idx]), to6digit(s_indexes[idx]), query_seq, search_seq, 1])
                         pos_samples += 1
                         count += 1
             
@@ -324,7 +326,8 @@ def generate_total_pairs_kdtree(query_gt_path, search_gt_path, query_seq, search
                 for idx in pose_tree.query_ball_point(q_positions[q_idx, :], r=softneg_max_dist, p=2):
                     if check_true(p_dropout) and check_soft_negative \
                     (q_positions[q_idx,:], s_positions[idx,:], softneg_min_dist, softneg_max_dist):
-                        writer.writerow([q_indexes[q_idx], s_indexes[idx], query_seq, search_seq, 0.5])
+                        writer.writerow([to6digit(q_indexes[q_idx]), to6digit(s_indexes[idx]), query_seq, search_seq, 0.5])
+                        # print(to6digit(q_indexes[q_idx]))
                         softneg_samples += 1
                         count += 1
             
@@ -333,7 +336,7 @@ def generate_total_pairs_kdtree(query_gt_path, search_gt_path, query_seq, search
                 for idx in np.random.permutation(s_positions.shape[0]):
                     if check_true(p_dropout) and check_hard_negative \
                     (q_positions[q_idx,:], s_positions[idx,:], hardneg_min_dist):
-                        writer.writerow([q_indexes[q_idx], s_indexes[idx], query_seq, search_seq, 0])
+                        writer.writerow([to6digit(q_indexes[q_idx]), to6digit(s_indexes[idx]), query_seq, search_seq, 0])
                         hardneg_samples += 1
                         count += 1
             

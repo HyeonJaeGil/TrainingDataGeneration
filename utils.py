@@ -15,6 +15,21 @@ import yaml
 import math
 np.set_printoptions(precision=9)
 
+
+def to2digit(input):
+    number = str(input).split('.')[0]
+    assert '.' not in number
+
+    return ('0' * (2-len(number)) + number)
+
+
+def to6digit(input):
+    number = str(input).split('.')[0]
+    assert '.' not in number
+
+    return ('0' * (6-len(number)) + number)
+
+
 # read csv file
 def read_csv(file_path): 
 

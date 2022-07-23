@@ -17,23 +17,13 @@ import yaml
 import math
 import copy
 import time
-from utils import read_image, read_image_16bit
-from generate_pairs import generate_valid_poses, get_valid_image_dict
+# from utils import read_image, read_image_16bit
+from generate_pairs import get_valid_image_dict
+from utils import to2digit, to6digit
 np.set_printoptions(precision=9)
 
 
-def to2digit(number):
-    if type(number) == float:
-        number = int(number)
-    count = str(number)
-    return ('0' * (2-len(count)) + count)
 
-
-def to6digit(number):
-    if type(number) == float:
-        number = int(number)
-    count = str(number)
-    return ('0' * (6-len(count)) + count)
 
 
 def crop_image(img, h=400, w=640, deepcopy=True):
@@ -118,6 +108,8 @@ def preprocess_image(cv_img, K, D, h, w):
 
 def preprocess_and_save_valid_image(src_img_folder, dst_img_folder, gt_pose_path, K, D, h, w):
     
+    if not os.path.exists(dst_img_folder):
+        os.mkdir(dst_img_folder)
     seq = str(dst_img_folder[-15:-13])
     print("seq: ", seq)
     valid_ids_imgs = get_valid_image_dict(gt_pose_path)
@@ -126,8 +118,9 @@ def preprocess_and_save_valid_image(src_img_folder, dst_img_folder, gt_pose_path
         raw_img = cv2.imread(os.path.join(src_img_folder,img), -1)
         out_img = preprocess_image(raw_img, K, D, h, w)
         cv2.imshow(seq, out_img.astype('uint8')); cv2.waitKey(1)
-        # cv2.imwrite((os.path.join(dst_img_folder,to6digit(idx)+'.png')), out_img)
+        cv2.imwrite((os.path.join(dst_img_folder,to6digit(idx)+'.png')), out_img)
 
+    cv2.destroyWindow(seq)
 
 if __name__ == '__main__':
     
@@ -151,7 +144,7 @@ if __name__ == '__main__':
     # for seq in ["01", "02", "03"]:
     # for seq in ["04", "05", "06"]:
     # for seq in ["07", "08", "09"]:
-    for seq in ["10"]:                
+    for seq in seqs:                
         preprocess_and_save_valid_image(
                     join(src_root_path, seq, src_image_folder),
                     join(dst_root_path, seq, "thermal_left"),
