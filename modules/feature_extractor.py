@@ -9,7 +9,7 @@ import torch.nn as nn
 
 from modules.netvlad import NetVLADLoupe
 import torch.nn.functional as F
-from tools.read_samples import read_one_data_from_seq
+from tools.read_samples import read_one_data
 import yaml
 from torchvision import datasets, transforms, models
 
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     seqs_root = config["data_root_folder"]
     # ============================================================================
 
-    combined_tensor = read_one_data_from_seq(seqs_root, 103 ,2)
+    combined_tensor = read_one_data(seqs_root, 103 ,2)
     combined_tensor = torch.cat((combined_tensor,combined_tensor), dim=0)
     print(combined_tensor.shape)
 

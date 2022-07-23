@@ -14,7 +14,7 @@ from modules.feature_extractor import featureExtracter
 import modules.loss as loss_module
 # from tools.utils.utils import *
 # from valid.valid_seq import validate_seq_faiss
-from tools.read_samples import csvfiles_to_nparray, read_one_batch_pos_neg, read_one_data_from_seq
+from tools.read_samples import csvfiles_to_nparray, read_one_batch_pos_neg, read_one_data
 np.set_printoptions(precision=9)
 import yaml
 
@@ -86,7 +86,7 @@ class trainHandler():
                 f1_index = self.train_imgf1[j]
                 dir1_index = self.train_dir1[j]
                 print(int(f1_index), int(dir1_index))
-                current_batch = read_one_data_from_seq(self.data_root_folder, f1_index, dir1_index)
+                current_batch = read_one_data(self.data_root_folder, f1_index, dir1_index)
                 if current_batch.numel() == 1:
                     continue 
 
@@ -114,6 +114,7 @@ class trainHandler():
                     continue
 
                 input_batch = torch.cat((current_batch, sample_batch), dim=0)
+                print(input_batch.shape)
 
                 input_batch.requires_grad_(True)
                 self.amodel.train()
@@ -169,7 +170,7 @@ if __name__ == '__main__':
     config = yaml.safe_load(open(config_filename))
     data_root_folder = config["data_root_folder"]
     training_seqs = config["training_seqs"]
-
+    training_seqs = ["07"]
 
     training_datas = [os.path.join(data_root_folder, seq, 'train_sets/train_pairs.csv') for seq in training_seqs]
 
